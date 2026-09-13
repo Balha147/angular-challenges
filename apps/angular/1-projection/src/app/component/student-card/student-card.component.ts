@@ -4,18 +4,29 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { FakeHttpService } from '../../data-access/fake-http.service';
+import { FakeHttpService, randStudent } from '../../data-access/fake-http.service';
 import { StudentStore } from '../../data-access/student.store';
 import { CardType } from '../../model/card.model';
 import { CardComponent } from '../../ui/card/card.component';
+import { NgOptimizedImage } from '@angular/common';
+import { ListItemComponent } from '../../ui/list-item/list-item.component';
 
 @Component({
   selector: 'app-student-card',
   template: `
     <app-card
       [list]="students()"
-      [type]="cardType"
-      customClass="bg-light-green" />
+      customClass="bg-light-green"
+      (addItem)="addNewStudent()">
+      <ng-template #imgTemplate>
+        <img ngSrc="assets/img/student.webp" width="200" height="200" alt="" />
+      </ng-template>
+      <ng-template #itemTemplate let-item>
+        <app-list-item
+            [name]="item.firstName"
+            (deleteItem)="deleteStudent(item.id)" />
+      </ng-template>
+    </app-card>
   `,
   styles: [
     `
@@ -24,7 +35,7 @@ import { CardComponent } from '../../ui/card/card.component';
       }
     `,
   ],
-  imports: [CardComponent],
+  imports: [CardComponent, NgOptimizedImage, ListItemComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentCardComponent implements OnInit {
@@ -36,5 +47,13 @@ export class StudentCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.http.fetchStudents$.subscribe((s) => this.store.addAll(s));
+  }
+
+  addNewStudent(): void {
+    this.store.addOne(randStudent())
+  }
+
+  deleteStudent(id: number): void {
+    this.store.deleteOne(id);
   }
 }
