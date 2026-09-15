@@ -1,0 +1,16 @@
+<div class="todo-list-container">
+    @if(isLoading()) {
+    <div class="loading-container">
+        <mat-spinner diameter="40" />
+    </div>
+    } @else if(error()) {
+    <p>Error: {{ error() }}</p>
+    } @else {
+    @for (todo of todos(); track todo.id) {
+    <app-todo-item [todoItem]="todo" (updateItem)="updateItem(todo)" (deleteItem)="deleteItem(todo)" />
+    } @empty {
+    <mat-icon class="emty-icon">check_circle_outline</mat-icon>
+    <p>Sorry, items not found !</p>
+    }
+    }
+</div>

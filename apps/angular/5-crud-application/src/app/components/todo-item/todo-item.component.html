@@ -1,0 +1,19 @@
+@if(todoItem() ; as todo) {
+<mat-card class="todo-card" [class.completed]="todo.completed">
+    <mat-card-content class="todo-content">
+        <div class="todo-left">
+            <span class="todo-title" [class.line-through]="todo.completed">
+                {{ todo.title }}
+            </span>
+        </div>
+        <div class="todo-actions">
+            <button mat-icon-button color="warn" aria-label="edit todo" (click)="onUpdate()">
+                <mat-icon>edit_outline</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" aria-label="delete todo" (click)="onDelete()">
+                <mat-icon>delete_outline</mat-icon>
+            </button>
+        </div>
+    </mat-card-content>
+</mat-card>
+}
