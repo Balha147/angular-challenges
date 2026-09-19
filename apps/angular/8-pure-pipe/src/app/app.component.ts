@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { HeavyPipe } from './heavy.pipe';
 
 @Component({
   selector: 'app-root',
   changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [HeavyPipe],
   template: `
     @for (person of persons; track person) {
-      {{ heavyComputation(person, $index) }}
+      {{ person | heavy:$index }}
     }
   `,
 })
