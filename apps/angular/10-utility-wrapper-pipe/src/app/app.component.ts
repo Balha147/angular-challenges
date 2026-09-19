@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { PersonUtils } from './person.utils';
+import { PersonUtilsPipe } from './person-utility.pipe';
 
 @Component({
   selector: 'app-root',
   changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [PersonUtilsPipe],
   template: `
     @for (activity of activities; track activity.name) {
       {{ activity.name }} :
@@ -13,8 +14,8 @@ import { PersonUtils } from './person.utils';
         let index = $index;
         let isFirst = $first
       ) {
-        {{ showName(person.name, index) }}
-        {{ isAllowed(person.age, isFirst, activity.minimumAge) }}
+        {{ 'showName' | personUtils: person.name : index }}
+        {{ 'isAllowed' | personUtils: person.age : isFirst : activity.minimumAge }}
       }
     }
   `,
@@ -32,7 +33,7 @@ export class AppComponent {
     { name: 'dancing', minimumAge: 1 },
   ];
 
-  showName = PersonUtils.showName;
+  // showName = PersonUtils.showName;
 
-  isAllowed = PersonUtils.isAllowed;
+  // isAllowed = PersonUtils.isAllowed;
 }
